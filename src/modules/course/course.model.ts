@@ -3,9 +3,10 @@ import { TCourse } from './course.interface';
 
 const courseSchema = new Schema(
   {
-    courseId: { type: String, required: true },
-    courseName: { type: String, required: true },
-    milestoneList: { type: [String] },
+    GId: { type: String, required: true },
+    courseId: { type: String, required: true, unique: true },
+    courseName: { type: String, required: true, unique: true },
+    milestoneList: { type: [Schema.Types.ObjectId] },
     isCompleted: { type: Boolean, default: false },
     isDeleted: { type: Boolean, default: false },
   },

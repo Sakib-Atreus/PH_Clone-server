@@ -13,7 +13,7 @@ const milestoneValidationSchema = z.object({
     .max(100, {
       message: 'Milestone name must be at most 100 characters long.',
     }),
-  courseId: z.string().refine((val) => mongoose.Types.ObjectId.isValid(val), {
+  course_id: z.string().refine((val) => mongoose.Types.ObjectId.isValid(val), {
     message: 'Invalid ObjectId format',
   }),
   moduleList: z

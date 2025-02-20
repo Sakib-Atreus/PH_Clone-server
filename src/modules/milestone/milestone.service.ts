@@ -1,9 +1,45 @@
+import { idFor } from '../../constents';
+import idConverter from '../../util/idConvirter';
+import idGeneratorFunctions from '../../util/idGenarator';
+import Course from '../course/course.model';
 import { TMilestone } from './milestone.interface';
 import { MilestoneModel } from './milestone.model';
 
 // Service for creating a milestone
 const createMilestoneIntoDB = async (milestone: TMilestone) => {
-  const result = await MilestoneModel.create(milestone);
+
+  const { course_id } = milestone
+  const findCourse = await Course.findById({ _id: course_id })
+  if (!findCourse) {
+    throw Error("no such course found")
+  }
+
+  const modifiedModel = idGeneratorFunctions.asDocumentModel(MilestoneModel)
+  const genaratedId = await idGeneratorFunctions.collectionIdGenerator(modifiedModel, idFor.milestone, course_id)
+  console.log(genaratedId)
+
+  const updateMilestone = {
+    ...milestone,
+
+    courseGId: findCourse.GId,
+    GId: genaratedId,
+    milestoneId: genaratedId,
+  }
+  const result = await MilestoneModel.create(updateMilestone);
+
+  if(!result)
+  {
+    throw Error ("milestone Creation failed")
+  }
+
+  const updateCourseWithMileStone_id = await Course.findByIdAndUpdate({_id:course_id},
+    {
+      $push:{
+        milestoneList:result._id
+      }
+    },
+    {new:true}
+  )
   return result;
 };
 
@@ -25,7 +61,7 @@ const deleteMilestoneFromDB = async (_id: string) => {
     { _id },
     { isDeleted: true },
     { new: true, runValidators: true }
-);
+  );
   return result;
 };
 

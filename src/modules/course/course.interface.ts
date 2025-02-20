@@ -1,9 +1,10 @@
 import { TMilestone } from "../milestone/milestone.interface";
 
 export type TCourse = {
-  courseId: string;
+  GId:string,
+  courseId?: string;
   courseName: string;
-  milestoneList: TMilestone[];
-  isCompleted: boolean;
-  isDeleted: boolean;
+  milestoneList?: TMilestone[];
+  isCompleted?: boolean;
+  isDeleted?: boolean;
 };

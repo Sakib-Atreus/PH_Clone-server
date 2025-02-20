@@ -6,8 +6,7 @@ import {
 } from './milestone.validation';
 import catchAsync from '../../util/catchAsync';
 import sendResponse from '../../util/sendResponse';
-// import { HttpStatus } from 'http-status-ts';
-import status from "http-status";
+import { HttpStatus } from 'http-status-ts';
 import Course from '../course/course.model';
 import mongoose from 'mongoose';
 
@@ -15,27 +14,24 @@ import mongoose from 'mongoose';
 const createMilestone = catchAsync(async (req: Request, res: Response) => {
   const milestoneData = req.body;
   // Validate the input data using your validation schema
-  const parsedMilestoneData = milestoneValidationSchema.parse(milestoneData);
+  // const parsedMilestoneData = milestoneValidationSchema.parse(milestoneData);
 
   // Ensure the courseId is an ObjectId (if it’s a string, we convert it)
-  const courseId = new mongoose.Types.ObjectId(parsedMilestoneData.courseId);
+  // const courseId = new mongoose.Types.ObjectId(parsedMilestoneData.courseId);
 
   // Step 1: Create the milestone
-  const result = await MilestoneServices.createMilestoneIntoDB({
-    ...parsedMilestoneData,
-    courseId, // Add the ObjectId for courseId
-  });
+  const result = await MilestoneServices.createMilestoneIntoDB(milestoneData);
 
   // Step 2: Add the milestone ID to the course's milestoneList[]
-  const course = await Course.findByIdAndUpdate(
-    parsedMilestoneData.courseId,
-    { $push: { milestoneList: result._id } },
-    { new: true, runValidators: true },
-  );
+  // const course = await Course.findByIdAndUpdate(
+  //   parsedMilestoneData.courseId,
+  //   { $push: { milestoneList: result._id } }, // Add the milestone's ObjectId to the list
+  //   { new: true, runValidators: true },
+  // );
 
   sendResponse(res, {
     success: true,
-    statusCode: status.CREATED,
+    statusCode: HttpStatus.CREATED,
     message: 'Milestone created successfully!',
     data: result,
   });
@@ -59,7 +55,7 @@ const getAllMilestones = catchAsync(async (req: Request, res: Response) => {
   if (!result || result.length === 0) {
     return sendResponse(res, {
       success: false,
-      statusCode: status.NOT_FOUND,
+      statusCode: HttpStatus.NOT_FOUND,
       message: 'Milestones not found!',
       data: null,
     });
@@ -67,7 +63,7 @@ const getAllMilestones = catchAsync(async (req: Request, res: Response) => {
 
   sendResponse(res, {
     success: true,
-    statusCode: status.OK,
+    statusCode: HttpStatus.OK,
     message: 'Milestones fetched successfully!',
     data: result,
   });
@@ -84,7 +80,7 @@ const getSingleMilestone = catchAsync(async (req: Request, res: Response) => {
     // If milestone not found, send a 404 response
     return sendResponse(res, {
       success: false,
-      statusCode: status.NOT_FOUND,
+      statusCode: HttpStatus.NOT_FOUND,
       message: 'Milestone not found!',
       data: null,
     });
@@ -93,7 +89,7 @@ const getSingleMilestone = catchAsync(async (req: Request, res: Response) => {
   // If milestone found, send a success response
   sendResponse(res, {
     success: true,
-    statusCode: status.OK,
+    statusCode: HttpStatus.OK,
     message: 'Milestone fetched successfully!',
     data: result,
   });
@@ -109,7 +105,7 @@ const deleteMilestone = catchAsync(async (req: Request, res: Response) => {
   if (!isExist) {
     return sendResponse(res, {
       success: false,
-      statusCode: status.NOT_FOUND,
+      statusCode: HttpStatus.NOT_FOUND,
       message: 'Milestone not found!',
       data: null,
     });
@@ -119,7 +115,7 @@ const deleteMilestone = catchAsync(async (req: Request, res: Response) => {
 
   sendResponse(res, {
     success: true,
-    statusCode: status.OK,
+    statusCode: HttpStatus.OK,
     message: 'Milestone deleted successfully!',
     data: null,
   });
@@ -140,7 +136,7 @@ const updateMilestone = catchAsync(async (req: Request, res: Response) => {
   if (!result) {
     return sendResponse(res, {
       success: false,
-      statusCode: status.NOT_FOUND,
+      statusCode: HttpStatus.NOT_FOUND,
       message: 'Milestone not found!',
       data: null,
     });
@@ -148,7 +144,7 @@ const updateMilestone = catchAsync(async (req: Request, res: Response) => {
 
   sendResponse(res, {
     success: true,
-    statusCode: status.OK,
+    statusCode: HttpStatus.OK,
     message: 'Milestone updated successfully!',
     data: result,
   });

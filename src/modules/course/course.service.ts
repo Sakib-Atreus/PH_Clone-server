@@ -1,16 +1,18 @@
 import { TCourse } from './course.interface';
 import Course from './course.model';
+import idGeneratorFunctions from '../../util/idGenarator';
+import { idFor } from '../../constents';
 
 const createCourseIntoDb = async (courseData: TCourse) => {
-  const result = await Course.create(courseData);
+  const modifyModel = idGeneratorFunctions.asDocumentModel(Course)
+  const genaretredId =await idGeneratorFunctions.collectionIdGenerator(modifyModel, idFor.course)
+  // console.log(genaretredId)
+  const modifyCourseData = {...courseData, courseId:genaretredId, GId:genaretredId}
+  const result = await Course.create(modifyCourseData);
   return result;
 };
 
-// console.log(courseData)
-//   const convertedDocument = documentConverter(Course);
-//   const genaretedCourseId = await idGenerator.collectionIdGenerator(Course,idFor.course) 
 
-// Get all courses with optional filtering
 const getAllCoursesFromDb = async (query: Record<string, unknown>) => {
   const courseQuery = Course.find(query);
   const result = await courseQuery.exec();
