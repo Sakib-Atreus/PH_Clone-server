@@ -1,5 +1,7 @@
 export type TUserRole = "admin" | "instructer" | "student" | "user"
 export type TIdFor= "course"| "milestone"| "module"|"video"|"quiz"|"assignment";
+export type PostTypeEnum = "Course Topics" | "Bugs" | "Guideline" | "Feature Request" | "Others";
+export type PostPlatformEnum = "Website" | "Android APP" | "IOS APP" | "Desktop APP" | "IOS (Browser)";
 
 
 export const userRole = {
