@@ -1,9 +1,11 @@
 import express from 'express';
 import { courseController } from './course.controller';
+import auth from '../../middlewares/auth';
+import { userRole } from '../../constents';
 
 const router = express.Router();
 
-router.post('/create-course', courseController.createCourseIntoDb);
+router.post('/create-course',auth(userRole.admin), courseController.createCourseIntoDb);
 
 router.get('/all-courses', courseController.getAllCoursesFromDb);
 

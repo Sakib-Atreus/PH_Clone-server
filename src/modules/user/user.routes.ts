@@ -14,12 +14,22 @@ userRoutes.post("/createStudent", (req, res,next) => {
 
 userRoutes.post("/createInstructer", (req, res,next) => {
     req.body = {
-        ...req.body, role: userRole.student
+        ...req.body, role: userRole.instructer
     }
     next()
 }, auth(userRole.admin), userController.createUser)
 
 userRoutes.post("/assignCourse",auth(userRole.admin),userController.assignCourseForInstructor)
+
+userRoutes.get("/getAllStudents", auth(userRole.admin, userRole.instructer), userController.getAllStudents);
+userRoutes.get("/getAllInstructors", auth(userRole.admin), userController.getAllInstructors);
+
+userRoutes.put("/updateStudent/:studentId", userController.updateStudent);
+userRoutes.put("/updateInstructor/:instructorId", auth(userRole.admin), userController.updateInstructor);
+
+userRoutes.delete("/deleteStudent/:studentId", auth(userRole.admin), userController.deleteStudent);
+userRoutes.delete("/deleteInstructor/:instructorId", auth(userRole.admin), userController.deleteInstructor);
+
 
 
 export default userRoutes

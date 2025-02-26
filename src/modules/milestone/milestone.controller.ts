@@ -1,11 +1,14 @@
 import { Request, Response } from 'express';
 import { MilestoneServices } from './milestone.service';
 import {
+  milestoneValidationSchema,
   partialMilestoneValidationSchema,
 } from './milestone.validation';
 import catchAsync from '../../util/catchAsync';
 import sendResponse from '../../util/sendResponse';
-import { HttpStatus } from 'http-status-ts';
+import HttpStatus from 'http-status';
+import Course from '../course/course.model';
+import mongoose from 'mongoose';
 
 // Controller to create a milestone
 const createMilestone = catchAsync(async (req: Request, res: Response) => {

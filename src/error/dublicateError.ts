@@ -1,4 +1,4 @@
-import { TErrorSource } from "../constent";
+import { TErrorSource } from "../constents";
 
 
 const dublicateErrorHandellerr = (err: any) => {

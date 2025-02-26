@@ -1,26 +1,20 @@
 import express from "express";
-import {
-  createQuestionPaper,
-  deleteQuestionPaper,
-  getAllQuestionPaper,
-  getQuestionPapersOfExaminee,
-  getSingleQuestionPaper,
-  updateQuestionPaper,
-} from "./questionPaper.controller";
 import auth from "../../middlewares/auth";
+import { userRole } from "../../constents";
+import questionPaperController from "./questionPaper.controller";
+
 
 const router = express.Router();
 
-router.get("/", getAllQuestionPaper);
-router.get(
-  "/examinee/:examineeId",
-  auth("examinee"),
-  getQuestionPapersOfExaminee
-);
-router.get("/single/:qid", getSingleQuestionPaper);
-router.post("/", auth("examinee"), createQuestionPaper);
-router.patch("/:qid", auth("examinee"), updateQuestionPaper);
-router.delete("/:qid", auth("examinee"), deleteQuestionPaper);
+
+
+router.post("/createQuestionPaper", auth(userRole.instructer), questionPaperController.createQuestionPaper);
+router.patch("/addNewMCQ", auth(userRole.instructer), questionPaperController.addMCQIntoQuestionPaper);
+
+router.get("/getSingleQuestionPaper", questionPaperController.getSingleQuestionPaper);
+
+router.patch("/:qid", auth(userRole.instructer), questionPaperController.updateQuestionPaper);
+router.delete("/:qid", auth(userRole.instructer), questionPaperController.deleteQuestionPaper);
 
 const questionPaperRoutes = router;
 

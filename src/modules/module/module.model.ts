@@ -6,7 +6,6 @@ const moduleSchema = new Schema<TModule>({
   GId: {
     type: String,
     required: [true, "Milestone GId is required"],
-    unique: true,
   },
   moduleId: {
     type: String,
@@ -15,7 +14,7 @@ const moduleSchema = new Schema<TModule>({
     type: String,
     required: [true, 'Module name is required'],
   },
-  courseId: {
+  course_id: {
     type: Schema.Types.ObjectId,
     required: [true, 'Course ID is required'],
   },
@@ -29,6 +28,11 @@ const moduleSchema = new Schema<TModule>({
       default: [true, "Video list is required"],
     },
   ],
+  quizId: {
+    type: Schema.Types.ObjectId,
+    required: false,
+    default: null,
+  },
   isCompleted: {
     type: Boolean,
     required: [false, 'Completion status is required'],

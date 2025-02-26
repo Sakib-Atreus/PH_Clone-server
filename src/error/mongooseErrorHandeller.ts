@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { TErrorSource } from "../constent";
+import { TErrorSource } from "../constents";
 
 
 

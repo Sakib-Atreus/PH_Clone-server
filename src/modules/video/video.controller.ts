@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { Request, Response } from 'express';
 import catchAsync from '../../util/catchAsync';
 import sendResponse from '../../util/sendResponse';
-import { HttpStatus } from 'http-status-ts';
+import HttpStatus from 'http-status';
 import { partialVideoValidationSchema, videoValidationSchema } from './video.validation';
 import { VideoServices } from './video.service';
 import { VideoModel } from './video.model';

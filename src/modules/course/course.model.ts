@@ -6,6 +6,7 @@ const courseSchema = new Schema(
     GId: { type: String, required: true },
     courseId: { type: String, required: true, unique: true },
     courseName: { type: String, required: true, unique: true },
+    amount: { type: Number, required: true },
     milestoneList: { type: [Schema.Types.ObjectId] },
     isCompleted: { type: Boolean, default: false },
     isDeleted: { type: Boolean, default: false },

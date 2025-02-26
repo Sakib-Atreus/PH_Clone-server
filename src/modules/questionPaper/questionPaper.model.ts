@@ -1,10 +1,15 @@
 import mongoose, { model, Schema } from "mongoose";
 import { TMCQ, TQuestionPaper } from "./questionPaper.interface";
-import { ExamineeModel } from "../examine/examinee.model";
+import { ModuleModel } from "../module/module.model";
 
-const TMCQSchema: Schema = new Schema({
+const TMCQSchema: Schema = new Schema<TMCQ>({
   QPid: {
-    type: mongoose.Types.ObjectId,
+    type: String,
+    ref: "QuestionPaper",
+    required: true,
+  },
+  mcqId:{
+    type: String,
     ref: "QuestionPaper",
     required: true,
   },
@@ -29,7 +34,29 @@ const TMCQSchema: Schema = new Schema({
 
 const questionPaperSchema = new Schema<TQuestionPaper>(
   {
-    domain: {
+    GId: {
+      type: String,
+      required: true,
+    },
+    questionPaperId: {
+      type: String,
+    },
+    course_id: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "Course",
+    },
+    milestoneId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "Milestone",
+    },
+    moduleId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "Module",
+    },
+    subject: {
       type: String,
       required: true,
     },
@@ -44,18 +71,12 @@ const questionPaperSchema = new Schema<TQuestionPaper>(
       type: [TMCQSchema],
       required: true,
     },
-    examineeId: {
-      type: Schema.Types.ObjectId,
-      ref: "Exam",
-      required: true,
-    },
-    id: {
-      type: String,
-      required: true,
+    isCompleted: {
+      type: Boolean,
+      default: false,
     },
     isDeleted: {
-      type: String,
-      required: true,
+      type: Boolean,
       default: false,
     },
   },
@@ -64,16 +85,9 @@ const questionPaperSchema = new Schema<TQuestionPaper>(
   }
 );
 
-questionPaperSchema.post("save", async function () {
-  await ExamineeModel.updateOne(
-    { uid: this.qid },
-    {
-      $push: {
-        questionPapers: [],
-      },
-    }
-  );
-});
+
+
+
 
 export const QuestionPaperModel = model<TQuestionPaper>(
   "QuestionPaper",

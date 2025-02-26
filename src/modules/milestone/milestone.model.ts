@@ -15,17 +15,14 @@ const milestoneSchema = new Schema<TMilestone>(
     GId: {
       type: String,
       required: [true, "Milestone GId is required"],
-      unique: true,
     },
     milestoneId: {
       type: String,
       required: [true, "Milestone ID is required"],
-      unique: true,
     },
     milestoneName: {
       type: String,
       required: [true, "Milestone name is required"],
-      unique: true,
     },
     moduleList: [
       {
@@ -33,6 +30,12 @@ const milestoneSchema = new Schema<TMilestone>(
         required: [true, "Module list is required"],
       },
     ],
+    assignmentId: {
+      type: Schema.Types.ObjectId,
+      required: false,
+      unique: true,
+      default:null
+    },
     isCompleted: {
       type: Boolean,
       default: false, // No need for `required: false`, default handles it

@@ -3,11 +3,12 @@ import { Types } from "mongoose"
 export type TUserRole = "admin" | "instructer" | "student" | "user" 
 
 export type TProgress={
-    couseId:Types.ObjectId,
-    milestoneNo:string | number,
-    moduleNo:string | number,
-    vedioNo:string | number,
-    lastQuizNo:string | number,
+    courseId:Types.ObjectId,
+    milestoneNo:string | number |null,
+    moduleNo:string | number |null,
+    vedioNo:string | number |null,
+    lastQuizNo:string | number |null,
+    lastAssignmentNo:string | number |null,
 }
 
 export type TUser={
@@ -18,7 +19,7 @@ export type TUser={
     role?:TUserRole,
     password:string,
     isDeleted?:string,
-    isBlocked?:boolean
+    isBlocked?:boolean,
     isLoggedIn?:boolean,
     loggedOutTime?:Date
 }
@@ -29,7 +30,9 @@ export type TStudent ={
     paymentStatus:boolean,
     progress:[TProgress],
     courseAccess:[Types.ObjectId],
-    isDeleted:string,
+    attentedQuiz:[Types.ObjectId],
+    attentedAssignment:[Types.ObjectId],
+    isDeleted:boolean,
     isBlocked:boolean
 }
 

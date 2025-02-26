@@ -16,6 +16,7 @@ const createMilestoneIntoDB = async (milestone: TMilestone) => {
 
   const modifiedModel = idGeneratorFunctions.asDocumentModel(MilestoneModel)
   const genaratedId = await idGeneratorFunctions.collectionIdGenerator(modifiedModel, idFor.milestone, course_id)
+  console.log(genaratedId)
 
   const updateMilestone = {
     ...milestone,

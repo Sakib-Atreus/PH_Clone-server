@@ -7,6 +7,8 @@ export type TMilestone = {
     milestoneId: string;
     milestoneName: string;
     moduleList: string[];
+    assignmentId?: Types.ObjectId | string;
     isCompleted?: boolean;
     isDeleted?: boolean;
 };
+  

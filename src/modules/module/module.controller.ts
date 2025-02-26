@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { Request, Response } from 'express';
 import catchAsync from '../../util/catchAsync';
 import sendResponse from '../../util/sendResponse';
-import { HttpStatus } from 'http-status-ts';
+import HttpStatus from 'http-status';
 import { moduleValidationSchema, partialModuleValidationSchema } from './module.validation';
 import { ModuleServices } from './module.service';
 import { MilestoneModel } from '../milestone/milestone.model';
@@ -19,7 +19,7 @@ const createModule = catchAsync(async (req: Request, res: Response) => {
   const parsedModuleData = moduleValidationSchema.parse(moduleData);
 
   // Ensure the courseId and milestoneId are ObjectId (if it's a string, convert it)
-  const courseId = new mongoose.Types.ObjectId(parsedModuleData.courseId);
+  const courseId = new mongoose.Types.ObjectId(parsedModuleData.course_id);
   const milestoneId = new mongoose.Types.ObjectId(parsedModuleData.milestoneId);
 
   // Step 1: Check if the course exists

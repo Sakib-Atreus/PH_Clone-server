@@ -40,16 +40,28 @@ const examSchema = new Schema<ExamType>({
     questionPaperId: {
         type: String,
         required: true,
-        unique: true
     },
-    candidId:{
+    candidateId:{
         type: String,
         required: true,
-        unique: true
     }
 }, {
     timestamps: true
 })
 
+
+examSchema.pre("save", async function (next) {
+    const existingExam = await examModel.findOne({
+      questionPaperId: this.questionPaperId,
+      candidateId: this.candidateId,
+    });
+  
+    if (existingExam) {
+      const error = new Error("You have already attempted this quiz.");
+      return next(error);
+    }
+  
+    next();
+  });
 
 export const examModel = model<ExamType>('Exam', examSchema)

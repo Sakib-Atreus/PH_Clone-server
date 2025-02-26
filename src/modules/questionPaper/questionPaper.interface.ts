@@ -1,13 +1,23 @@
 import { Types } from "mongoose";
 
 export type TQuestionPaper = {
-  id: string;
-  domain: string;
-  examineeId: Types.ObjectId;
+  GId: string;
+  questionPaperId?: string;
+
+  course_id: Types.ObjectId | string;
+  milestoneId: Types.ObjectId | string;
+  moduleId: Types.ObjectId | string;
+ 
+  subject: string;
   duration: number;
+
   totalMarks?: number;
   MCQSet: TMCQ[];
-  isDeleted: Boolean;
+
+  isCompleted?: boolean;
+  isDeleted?: boolean;  
+  createdAt: Date; 
+  updatedAt: Date; 
 };
 
 export type TMCQ = {

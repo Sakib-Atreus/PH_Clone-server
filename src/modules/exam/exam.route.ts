@@ -9,13 +9,14 @@ import {
     endExamController
 } from "./exam.controller";
 import auth from "../../middlewares/auth";
-import { userRole } from "../../constents";
+import { accessRequest, userRole } from "../../constents";
+import accessAuth from "../../middlewares/accessAuth";
 
 
 const router = express.Router();
 
-router.post("/start", auth(userRole.candidate), validator(StartExamSchema), startExamController)
-router.post("/end", auth(userRole.candidate), validator(EndExamSchema), endExamController)
+router.post("/start", auth(userRole.student), validator(StartExamSchema),accessAuth(accessRequest.quiz), startExamController)
+router.post("/submit", auth(userRole.student), endExamController)
 
 
 const examRoute = router

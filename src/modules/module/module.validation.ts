@@ -9,7 +9,7 @@ const moduleValidationSchema = z.object({
     .max(100, {
       message: 'Module name must be at most 100 characters long.',
     }),
-  courseId: z.string().refine((val) => mongoose.Types.ObjectId.isValid(val), {
+    course_id: z.string().refine((val) => mongoose.Types.ObjectId.isValid(val), {
     message: 'Invalid Course ObjectId format',
   }),
   milestoneId: z.string().refine((val) => mongoose.Types.ObjectId.isValid(val), {

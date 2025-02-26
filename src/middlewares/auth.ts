@@ -4,12 +4,13 @@ import authUtill from '../modules/auth/auth.utill';
 import catchAsync from '../util/catchAsync';
 import { TUserRole } from '../constents';
 import { UserModel } from '../modules/user/user.model';
+import idConverter from '../util/idConvirter';
 
 const auth = (...requeredUserRole: TUserRole[]) => {
     return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
         const authorizationToken = req?.headers?.authorization;
 
-        console.log("auth fun token",authorizationToken)
+        // console.log("auth fun token",authorizationToken)
 
         if (!authorizationToken) {
             throw new Error('Unauthorized User: Missing Authorization Token');
@@ -23,7 +24,7 @@ const auth = (...requeredUserRole: TUserRole[]) => {
 
         const { id, role, iat } = decoded as JwtPayload;
 
-        console.log("role", role, "rquR", requeredUserRole)
+        // console.log("role", role, "rquR", requeredUserRole)
 
         // Check if the user's role is allowed
         if (requeredUserRole.length && !requeredUserRole.includes(role)) {
@@ -32,12 +33,12 @@ const auth = (...requeredUserRole: TUserRole[]) => {
 
         // Find the user in the database
         const findUser = await UserModel.findOne({
-            _id:id,
+            _id:idConverter(id),
             isLoggedIn:true,
             isDeleted:false
         });
 
-        console.log(findUser)
+        // console.log(id  , findUser);
 
         if (!findUser) {
             throw new Error('Unauthorized User: Forbidden Access');

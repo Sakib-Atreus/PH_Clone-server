@@ -10,7 +10,6 @@ async function main() {
   try {
     console.log("connecting to mongodb....⏳");
     await mongoose.connect(config.mongoose_uri);
-    console.log("Database connected successfully... ✅");
     await adminSeeder()
     server = app.listen(config.port, () => {
       console.log(`PH server app listening on port ${config.port}`);

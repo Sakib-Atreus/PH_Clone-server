@@ -6,7 +6,6 @@ const videoSchema = new Schema<TVideo>({
   GId: {
     type: String,
     required: [true, 'Milestone GId is required'],
-    unique: true,
   },
   videoId: {
     type: String,
